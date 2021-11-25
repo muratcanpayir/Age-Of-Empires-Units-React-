@@ -1,0 +1,13 @@
+nav{
+  height: 80px;
+  background-color: #000;
+}
+.image-wrapper{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img{
+    height: 100%;
+  }
+}
