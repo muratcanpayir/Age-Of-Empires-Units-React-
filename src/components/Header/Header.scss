@@ -2,6 +2,7 @@ header {
   width: 100%;
   background-color: black;
   height: 80px;
+  border-bottom: 1px solid #d3b996;
 }
 nav {
   display: flex;
@@ -9,9 +10,9 @@ nav {
   align-items: center;
   margin: 0 220px;
   height: 80px;
-}
-a{
-  height: 100%;
+  a{
+    height: 100%;
+  }
 }
 .image-wrapper {
   height: 100%;
