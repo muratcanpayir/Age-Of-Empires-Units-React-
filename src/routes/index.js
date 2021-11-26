@@ -8,8 +8,8 @@ import Units from "../pages/Units";
 function Routers() {
   return (
     <>
-      <Header />
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/units" element={<Units />} />
