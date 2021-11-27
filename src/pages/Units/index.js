@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Units.scss";
 import {
   Slider,
@@ -6,15 +6,24 @@ import {
   ToggleButton,
   Checkbox,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { getUnits } from "../../redux/actions/units";
+import { useSelector } from "react-redux";
 
 function Units() {
   const [alignment, setAlignment] = useState("all");
-  const [woodCost,setWoodCost]=useState(0);
-  const [foodCost,setFoodCost]=useState(0);
-  const [goldCost,setGoldCost]=useState(0);
+  const [woodCost, setWoodCost] = useState(0);
+  const [foodCost, setFoodCost] = useState(0);
+  const [goldCost, setGoldCost] = useState(0);
+  const dispatch = useDispatch();
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
+  useEffect(() => {
+    dispatch(getUnits());
+  }, [dispatch]);
+  const units = useSelector((state) => state.units);
+  console.log(units);
   return (
     <div className="units-container">
       <div className="units">
@@ -37,34 +46,40 @@ function Units() {
         <label>Costs</label>
         <div className="costs">
           <Checkbox />
-          <label htmlFor="wood" className="cost-labels">Wood</label> 
+          <label htmlFor="wood" className="cost-labels">
+            Wood
+          </label>
           <Slider
             defaultValue={woodCost}
             aria-label="Default"
             valueLabelDisplay="auto"
-            onChange={(e)=>setWoodCost(e.target.value)}
+            onChange={(e) => setWoodCost(e.target.value)}
           />
           <span className="cost-spans">{woodCost}</span>
         </div>
         <div className="costs">
           <Checkbox />
-          <label htmlFor="food" className="cost-labels">Food</label>    
+          <label htmlFor="food" className="cost-labels">
+            Food
+          </label>
           <Slider
             defaultValue={foodCost}
             aria-label="Default"
             valueLabelDisplay="auto"
-            onChange={(e)=>setFoodCost(e.target.value)}
+            onChange={(e) => setFoodCost(e.target.value)}
           />
           <span className="cost-spans">{foodCost}</span>
         </div>
         <div className="costs">
           <Checkbox />
-           <label htmlFor="gold" className="cost-labels">Gold</label>   
+          <label htmlFor="gold" className="cost-labels">
+            Gold
+          </label>
           <Slider
             defaultValue={goldCost}
             aria-label="Default"
             valueLabelDisplay="auto"
-            onChange={(e)=>setGoldCost(e.target.value)}
+            onChange={(e) => setGoldCost(e.target.value)}
           />
           <span className="cost-spans">{goldCost}</span>
         </div>
