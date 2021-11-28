@@ -28,12 +28,13 @@ function Units() {
   const dispatch = useDispatch();
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
+    setPage(0);
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(parseInt(event.target.value, 5));
     setPage(0);
   };
   useEffect(() => {
@@ -139,7 +140,7 @@ function Units() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10]}
+          rowsPerPageOptions={[5]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
