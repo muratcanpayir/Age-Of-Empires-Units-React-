@@ -1,17 +1,13 @@
-import { call } from "@redux-saga/core/effects";
-import axios from "axios";
+import { call, put } from "@redux-saga/core/effects";
 import fakeData from "../../helpers/fakeAPI/age-of-empires-units.json";
+import { GET_UNITS_SUCCESS } from "../constants/units";
 
-async function fetchUnits(){
-    try{
-      const data=await axios.get("https://jsonplaceholder.typicode.com/users");
-      return data;
-    }catch(error){
-      console.log(error);
-    }
+function fetchUnits() {
+  const data = fakeData;
+  return data;
 }
 
-export function* handleGetUnits(){
-  yield call(fetchUnits);
-  
+export function* handleGetUnits() {
+  const units = yield call(fetchUnits);
+  yield put({ type: GET_UNITS_SUCCESS, units });
 }

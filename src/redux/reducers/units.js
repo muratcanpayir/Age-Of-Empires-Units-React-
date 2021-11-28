@@ -14,9 +14,9 @@ export const unitsReducer = (state = initial_state, action) => {
     case GET_UNITS_PENDING: 
       return { ...state, status: REQUEST_STATUS.PENDING }; 
     case GET_UNITS_SUCCESS: 
-      return { ...state, status: REQUEST_STATUS.SUCCESS, data: action.payload }; 
+      return { ...state, status: REQUEST_STATUS.SUCCESS, data: action.units }; 
     case GET_UNITS_ERROR: 
-      return { ...state, status: REQUEST_STATUS.ERROR, error: action.payload }; 
+      return { ...state, status: REQUEST_STATUS.ERROR, error: action.units }; 
     default: 
       return state; 
   } 

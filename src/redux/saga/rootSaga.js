@@ -1,9 +1,7 @@
-import { takeLatest } from "redux-saga/effects";
-import { getUnits } from "../actions/units";
-import { GET_UNITS_SUCCESS } from "../constants/units";
-
+import { takeEvery } from "redux-saga/effects";
+import { GET_UNITS_SAGA } from "../constants/units";
 import { handleGetUnits } from "./unitsSaga";
 
-export function* rootSaga(){
-  yield takeLatest(GET_UNITS_SUCCESS,handleGetUnits);
+export function* rootSaga() {
+  yield takeEvery(GET_UNITS_SAGA, handleGetUnits);
 }

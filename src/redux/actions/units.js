@@ -1,7 +1,7 @@
 import {  
-  GET_UNITS_SUCCESS, 
+  GET_UNITS_SAGA, 
 } from "../constants/units"; 
  
 export const getUnits = () => ({
-  type:GET_UNITS_SUCCESS,
+  type:GET_UNITS_SAGA,
 })

@@ -23,7 +23,6 @@ function Units() {
     dispatch(getUnits());
   }, [dispatch]);
   const units = useSelector((state) => state.units);
-  console.log(units);
   return (
     <div className="units-container">
       <div className="units">

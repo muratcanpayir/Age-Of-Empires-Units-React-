@@ -4,15 +4,15 @@ import { unitsReducer } from "../reducers/units";
 import createSagaMiddleware from "@redux-saga/core";
 import { rootSaga } from "../saga/rootSaga";
 
+const reducers = combineReducers({
+  units: unitsReducer,
+});
 
-const reducers=combineReducers({
-  units:unitsReducer,
-})
-
-const sagaMiddleware=createSagaMiddleware();
-const store=createStore(
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware(sagaMiddleware)))
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
+);
 
 sagaMiddleware.run(rootSaga);
 
