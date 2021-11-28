@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
 
 function Units() {
-  const [alignment, setAlignment] = useState("all");
+  const [alignment, setAlignment] = useState("All");
   const [woodCost, setWoodCost] = useState(0);
   const [foodCost, setFoodCost] = useState(0);
   const [goldCost, setGoldCost] = useState(0);
@@ -33,21 +33,18 @@ function Units() {
     setPage(newPage);
   };
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 5));
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
   useEffect(() => {
     dispatch(getUnits());
   }, [dispatch]);
   const units = useSelector((state) => state.units);
-  console.log(units.data[0]);
   function createData(id, name, age, costs) {
     return { id, name, age, costs };
   }
-  const rows=[];
-  units.data.map((unit)=>{
-    return rows.push(createData(unit.id,unit.name,unit.age,5));
-  })
+  const rows = [];
+
   return (
     <div className="units-container">
       <div className="units">
@@ -60,11 +57,11 @@ function Units() {
             exclusive
             onChange={handleChange}
           >
-            <ToggleButton value="all">All</ToggleButton>
-            <ToggleButton value="dark">Dark</ToggleButton>
-            <ToggleButton value="feudal">Feudal</ToggleButton>
-            <ToggleButton value="castle">Castle</ToggleButton>
-            <ToggleButton value="imperial">Imperial</ToggleButton>
+            <ToggleButton value="All">All</ToggleButton>
+            <ToggleButton value="Dark">Dark</ToggleButton>
+            <ToggleButton value="Feudal">Feudal</ToggleButton>
+            <ToggleButton value="Castle">Castle</ToggleButton>
+            <ToggleButton value="Imperial">Imperial</ToggleButton>
           </ToggleButtonGroup>
         </div>
         <label>Costs</label>
@@ -118,26 +115,31 @@ function Units() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell align="right">{row.name}</TableCell>
-                  <TableCell align="right">{row.age}</TableCell>
-                  <TableCell align="right">{row.costs}</TableCell>
-                </TableRow>
-              ))}
+              {units.data
+                .filter((unit) => {
+                  if (unit.age === alignment || alignment === "All") {
+                    return rows.push(createData(unit.id, unit.name, unit.age, 5));
+                  }
+                })
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => (
+                  <TableRow
+                    key={row.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.id}
+                    </TableCell>
+                    <TableCell align="right">{row.name}</TableCell>
+                    <TableCell align="right">{row.age}</TableCell>
+                    <TableCell align="right">{row.costs}</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5]}
+          rowsPerPageOptions={[10]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
