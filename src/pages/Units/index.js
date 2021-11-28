@@ -41,6 +41,7 @@ function Units() {
     dispatch(getUnits());
   }, [dispatch]);
   const units = useSelector((state) => state.units);
+  console.log(units);
   function createData(id, name, age, costs) {
     return { id, name, age, costs };
   }
@@ -119,9 +120,17 @@ function Units() {
               {units.data
                 .filter((unit) => {
                   if (unit.age === alignment || alignment === "All") {
-                    return rows.push(createData(unit.id, unit.name, unit.age, 5));
+                    if(unit.cost === null){
+                      rows.push(createData(unit.id, unit.name, unit.age,0 ));
+                    }
+                    else{
+                      rows.push(createData(unit.id, unit.name, unit.age,JSON.stringify(unit.cost) ));
+                    }
+                     
                   }
                 })
+              }
+              {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow
