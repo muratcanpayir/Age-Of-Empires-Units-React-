@@ -12,11 +12,11 @@ import {
   TableCell,
   TableBody,
   TablePagination,
+  Table
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getUnits } from "../../redux/actions/units";
 import { useSelector } from "react-redux";
-import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 function Units() {
@@ -43,7 +43,6 @@ function Units() {
     dispatch(getUnits());
   }, [dispatch]);
   const units = useSelector((state) => state.units);
-  console.log(units);
   function createData(id, name, age, costs) {
     return { id, name, age, costs };
   }
@@ -109,7 +108,7 @@ function Units() {
           <span className="cost-spans">{goldCost}</span>
         </div>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label="a dense table" size="small">
             <TableHead>
               <TableRow>
                 <TableCell>Id</TableCell>
