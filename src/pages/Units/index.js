@@ -17,8 +17,10 @@ import { useDispatch } from "react-redux";
 import { getUnits } from "../../redux/actions/units";
 import { useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function Units() {
+  const navigate=useNavigate();
   const [alignment, setAlignment] = useState("All");
   const [woodCost, setWoodCost] = useState(0);
   const [foodCost, setFoodCost] = useState(0);
@@ -134,6 +136,7 @@ function Units() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow
+                    onClick={()=>{navigate(`/details/${row.id}`)}}
                     key={row.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
