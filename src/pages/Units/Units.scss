@@ -41,4 +41,21 @@
     margin-left: -250px;
   }
 }
+@media screen and (max-width:480px){
+  .ages{
+    display: flex;
+    justify-content: center;
+  }
+  .cost-labels{
+    width: 75px;
+  }
+  .MuiToggleButton-root{
+    padding: 8px !important;
+  }
+  .units{
+    padding: 10px;
+    width: 350px;
+    margin-left: -175px;
+  }
+}
 
