@@ -207,10 +207,10 @@ function Units() {
           <Table sx={{ minWidth: 650 }} aria-label="a dense table" size="small">
             <TableHead>
               <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell align="right">Name</TableCell>
-                <TableCell align="right">Age</TableCell>
-                <TableCell align="right">Costs</TableCell>
+                <TableCell style={{fontWeight:"700"}}>Id</TableCell>
+                <TableCell align="right" style={{fontWeight:"700"}}>Name</TableCell>
+                <TableCell align="right" style={{fontWeight:"700"}}>Age</TableCell>
+                <TableCell align="right" style={{fontWeight:"700"}}>Costs</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -247,9 +247,7 @@ function Units() {
                         createData( 
                           unit.id, 
                           unit.name,
-
-Dilagger, [30/11/2021 08:13]
-unit.age, 
+                          unit.age, 
                           JSON.stringify(unit.cost) 
                         ) 
                       ); 
@@ -359,9 +357,7 @@ unit.age,
                           JSON.stringify(unit.cost) 
                         ) 
                       );
-
-Dilagger, [30/11/2021 08:13]
-} 
+                    } 
                   } else { 
                     if (!woodCheck && !foodCheck && !goldCheck) { 
                       rows.push(createData(unit.id, unit.name, unit.age, "-")); 
