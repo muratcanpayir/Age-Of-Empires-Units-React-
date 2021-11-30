@@ -12,7 +12,7 @@ import {
   TableCell,
   TableBody,
   TablePagination,
-  Table
+  Table,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getUnits } from "../../redux/actions/units";
@@ -20,11 +20,14 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Units() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [alignment, setAlignment] = useState("All");
   const [woodCost, setWoodCost] = useState(0);
   const [foodCost, setFoodCost] = useState(0);
   const [goldCost, setGoldCost] = useState(0);
+  const [woodCheck, setWoodCheck] = useState(false);
+  const [foodCheck, setFoodCheck] = useState(false);
+  const [goldCheck, setGoldCheck] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const dispatch = useDispatch();
@@ -41,13 +44,87 @@ function Units() {
   };
   useEffect(() => {
     dispatch(getUnits());
+    filterData();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!woodCheck) {
+      setWoodCost(0);
+    }
+    filterData();
+  }, [woodCheck]);
+  useEffect(() => {
+    if (!foodCheck) {
+      setFoodCost(0);
+    }
+    filterData();
+  }, [foodCheck]);
+  useEffect(() => {
+    if (!goldCheck) {
+      setGoldCost(0);
+    }
+    filterData();
+  }, [goldCheck]);
+
+  useEffect(() => {
+    filterData();
+  }, [goldCost, foodCost, woodCost, alignment]);
+
   const units = useSelector((state) => state.units);
-  function createData(id, name, age, costs) {
-    return { id, name, age, costs };
+  useEffect(() => {
+    filterData();
+  }, [units]);
+  function createData(id, name, age, wood, food, gold) {
+    return { id, name, age, wood, food, gold };
   }
   const rows = [];
+  const [tableData, setTableData] = useState([]);
 
+  const filterData = () => {
+    const ageFiltered = units.data.filter(
+      (unit) => unit.age === alignment || alignment === "All"
+    );
+    if (!foodCheck && !goldCheck && !woodCheck) {
+      ageFiltered.map((unit) => {
+        rows.push(
+          createData(
+            unit.id,
+            unit.name,
+            unit.age,
+            unit.cost !== null && unit.cost.Wood ? unit.cost.Wood : 0,
+            unit.cost !== null && unit.cost.Food ? unit.cost.Food : 0,
+            unit.cost !== null && unit.cost.Gold ? unit.cost.Gold : 0
+          )
+        );
+      });
+      setTableData(rows);
+      return;
+    }
+    const costFiltered = ageFiltered.filter((unit) => unit.cost);
+    const filteredData = costFiltered.filter(
+      (unit) =>
+        woodCheck === !!unit.cost.Wood &&
+        (!woodCheck || unit.cost.Wood <= woodCost) &&
+        foodCheck === !!unit.cost.Food &&
+        (!foodCheck || unit.cost.Food <= foodCost) &&
+        goldCheck === !!unit.cost.Gold &&
+        (!goldCheck || unit.cost.Gold <= goldCost)
+    );
+    filteredData.map((unit) => {
+      rows.push(
+        createData(
+          unit.id,
+          unit.name,
+          unit.age,
+          unit.cost !== null && unit.cost.Wood ? unit.cost.Wood : 0,
+          unit.cost !== null && unit.cost.Food ? unit.cost.Food : 0,
+          unit.cost !== null && unit.cost.Gold ? unit.cost.Gold : 0
+        )
+      );
+    });
+    setTableData(rows);
+  };
+  
   return (
     <div className="units-container">
       <div className="units">
@@ -62,6 +139,7 @@ function Units() {
           >
             <ToggleButton value="All">All</ToggleButton>
             <ToggleButton value="Dark">Dark</ToggleButton>
+
             <ToggleButton value="Feudal">Feudal</ToggleButton>
             <ToggleButton value="Castle">Castle</ToggleButton>
             <ToggleButton value="Imperial">Imperial</ToggleButton>
@@ -69,41 +147,59 @@ function Units() {
         </div>
         <label>Costs</label>
         <div className="costs">
-          <Checkbox />
+          <Checkbox
+            value={woodCheck}
+            onChange={(e) => setWoodCheck(e.target.checked)}
+          />
           <label htmlFor="wood" className="cost-labels">
             Wood
           </label>
           <Slider
-            defaultValue={woodCost}
+            value={woodCost}
             aria-label="Default"
             valueLabelDisplay="auto"
+            min={0}
+            max={200}
             onChange={(e) => setWoodCost(e.target.value)}
+            disabled={woodCheck ? false : true}
           />
           <span className="cost-spans">{woodCost}</span>
         </div>
         <div className="costs">
-          <Checkbox />
+          <Checkbox
+            value={foodCheck}
+            onChange={(e) => setFoodCheck(e.target.checked)}
+          />
           <label htmlFor="food" className="cost-labels">
             Food
           </label>
           <Slider
-            defaultValue={foodCost}
+            value={foodCost}
             aria-label="Default"
             valueLabelDisplay="auto"
+            min={0}
+            max={200}
             onChange={(e) => setFoodCost(e.target.value)}
+            disabled={foodCheck ? false : true}
           />
           <span className="cost-spans">{foodCost}</span>
         </div>
         <div className="costs">
-          <Checkbox />
+          <Checkbox
+            value={goldCheck}
+            onChange={(e) => setGoldCheck(e.target.checked)}
+          />
           <label htmlFor="gold" className="cost-labels">
             Gold
           </label>
           <Slider
-            defaultValue={goldCost}
+            value={goldCost}
             aria-label="Default"
             valueLabelDisplay="auto"
+            min={0}
+            max={200}
             onChange={(e) => setGoldCost(e.target.value)}
+            disabled={goldCheck ? false : true}
           />
           <span className="cost-spans">{goldCost}</span>
         </div>
@@ -118,24 +214,168 @@ function Units() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {units.data
-                .filter((unit) => {
-                  if (unit.age === alignment || alignment === "All") {
-                    if(unit.cost === null){
-                      rows.push(createData(unit.id, unit.name, unit.age,0 ));
-                    }
-                    else{
-                      rows.push(createData(unit.id, unit.name, unit.age,JSON.stringify(unit.cost) ));
-                    }
-                     
-                  }
-                })
-              }
-              {rows
+              {/*units.data.filter((unit) => { 
+                if (unit.age === alignment || alignment === "All") { 
+                  if(!woodCheck && !foodCheck && !goldCheck){ 
+                    rows.push( 
+                      createData( 
+                        unit.id, 
+                        unit.name, 
+                        unit.age, 
+                        JSON.stringify(unit.cost) 
+                      ) 
+                    ); 
+                  } 
+                  else if (unit.cost !== null) { 
+                    if (((woodCheck === !!unit.cost.Wood) && (!woodCheck || unit.cost.Wood <= woodCost)) && 
+                        ((foodCheck === !!unit.cost.Food) && (!foodCheck || unit.cost.Food <= foodCost)) && 
+                        ((goldCheck === !!unit.cost.Gold) && (!goldCheck || unit.cost.Gold <= goldCost))) { 
+                          rows.push( 
+                            createData( 
+                              unit.id, 
+                              unit.name, 
+                              unit.age, 
+                              JSON.stringify(unit.cost) 
+                            ) 
+                          ); 
+                    } 
+                  } 
+                   
+                  if (unit.cost !== null) { 
+                    if (!woodCheck && !foodCheck && !goldCheck) { 
+                      rows.push( 
+                        createData( 
+                          unit.id, 
+                          unit.name,
+
+Dilagger, [30/11/2021 08:13]
+unit.age, 
+                          JSON.stringify(unit.cost) 
+                        ) 
+                      ); 
+                    } 
+                    if ( 
+                      woodCheck && 
+                      !foodCheck && 
+                      !goldCheck && 
+                      unit.cost.Wood && 
+                      !unit.cost.Food && 
+                      !unit.cost.Gold && 
+                      unit.cost.Wood < woodCost 
+                    ) { 
+                      rows.push( 
+                        createData( 
+                          unit.id, 
+                          unit.name, 
+                          unit.age, 
+                          JSON.stringify(unit.cost) 
+                        ) 
+                      ); 
+                    } else if ( 
+                      foodCheck && 
+                      !woodCheck && 
+                      !goldCheck && 
+                      unit.cost.Food && 
+                      !unit.cost.Wood && 
+                      !unit.cost.Gold && 
+                      unit.cost.Food < foodCost 
+                    ) { 
+                      rows.push( 
+                        createData( 
+                          unit.id, 
+                          unit.name, 
+                          unit.age, 
+                          JSON.stringify(unit.cost) 
+                        ) 
+                      ); 
+                    } else if ( 
+                      goldCheck && 
+                      !woodCheck && 
+                      !foodCheck && 
+                      unit.cost.Gold && 
+                      !unit.cost.Wood && 
+                      !unit.cost.Food && 
+                      unit.cost.Gold < goldCost 
+                    ) { 
+                      rows.push( 
+                        createData( 
+                          unit.id, 
+                          unit.name, 
+                          unit.age, 
+                          JSON.stringify(unit.cost) 
+                        ) 
+                      ); 
+                    } else if ( 
+                      woodCheck && 
+                      foodCheck && 
+                      !goldCheck && 
+                      unit.cost.Wood && 
+                      unit.cost.Food && 
+                      !unit.cost.Gold && 
+                      unit.cost.Wood < woodCost && 
+                      unit.cost.Food < foodCost 
+                    ) { 
+                      rows.push( 
+                        createData( 
+                          unit.id, 
+                          unit.name, 
+                          unit.age, 
+                          JSON.stringify(unit.cost) 
+                        ) 
+                      ); 
+                    } else if ( 
+                      woodCheck && 
+                      goldCheck && 
+                      !foodCheck && 
+                      unit.cost.Wood && 
+                      unit.cost.Gold && 
+                      !unit.cost.Food && 
+                      unit.cost.Wood < woodCost && 
+                      unit.cost.Gold < goldCost 
+                    ) { 
+                      rows.push( 
+                        createData( 
+                          unit.id, 
+                          unit.name, 
+                          unit.age, 
+                          JSON.stringify(unit.cost) 
+                        ) 
+                      ); 
+                    } else if ( 
+                      foodCheck && 
+                      goldCheck && 
+                      !woodCheck && 
+                      unit.cost.Food && 
+                      unit.cost.Gold && 
+                      !unit.cost.Wood && 
+                      unit.cost.Food < foodCost && 
+                      unit.cost.Gold < goldCost 
+                    ) { 
+                      rows.push( 
+                        createData( 
+                          unit.id, 
+                          unit.name, 
+                          unit.age, 
+                          JSON.stringify(unit.cost) 
+                        ) 
+                      );
+
+Dilagger, [30/11/2021 08:13]
+} 
+                  } else { 
+                    if (!woodCheck && !foodCheck && !goldCheck) { 
+                      rows.push(createData(unit.id, unit.name, unit.age, "-")); 
+                    } 
+                  } 
+                } 
+              })*/}
+              {tableData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow
-                    onClick={()=>{navigate(`/details/${row.id}`)}}
+                    onClick={() => {
+                      navigate(`/details/${row.id}`);
+                    }}
                     key={row.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
@@ -144,7 +384,9 @@ function Units() {
                     </TableCell>
                     <TableCell align="right">{row.name}</TableCell>
                     <TableCell align="right">{row.age}</TableCell>
-                    <TableCell align="right">{row.costs}</TableCell>
+                    <TableCell align="right">
+                      Wood: {row.wood} Food: {row.food} Gold: {row.gold}
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
@@ -153,7 +395,7 @@ function Units() {
         <TablePagination
           rowsPerPageOptions={[5]}
           component="div"
-          count={rows.length}
+          count={tableData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
