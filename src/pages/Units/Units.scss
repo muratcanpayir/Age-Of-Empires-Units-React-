@@ -28,6 +28,18 @@
 .cost-spans{
   width: 25px;
 }
+.MuiTableHead-root{
+  background: rgb(43, 42, 42);
+  
+  th{
+    color: #fff;
+    border: 1px solid #625645 !important;
+  }
+}
+.MuiTableCell-body{
+  background-color: rgb(206, 206, 206);
+  border: 1px solid #625645 !important;
+}
 @media screen and (max-width:1200px){
   .units{
     width: 750px;
