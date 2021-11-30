@@ -207,10 +207,10 @@ function Units() {
           <Table sx={{ minWidth: 650 }} aria-label="a dense table" size="small">
             <TableHead>
               <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell align="right">Name</TableCell>
-                <TableCell align="right">Age</TableCell>
-                <TableCell align="right">Costs</TableCell>
+                <TableCell style={{fontWeight:"700"}}>Id</TableCell>
+                <TableCell align="right" style={{fontWeight:"700"}}>Name</TableCell>
+                <TableCell align="right" style={{fontWeight:"700"}}>Age</TableCell>
+                <TableCell align="right" style={{fontWeight:"700"}}>Costs</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

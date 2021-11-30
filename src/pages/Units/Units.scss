@@ -33,6 +33,9 @@
     width: 750px;
     margin-left: -375px;
   }
+  .cost-labels{
+    width: 80px;
+  }
 }
 @media screen and (max-width:768px){
   .units{
@@ -45,9 +48,6 @@
   .ages{
     display: flex;
     justify-content: center;
-  }
-  .cost-labels{
-    width: 80px;
   }
   .MuiToggleButton-root{
     padding: 8px !important;

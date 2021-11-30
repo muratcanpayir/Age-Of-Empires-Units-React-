@@ -8,11 +8,8 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
-  TablePagination,
   Table,
 } from "@mui/material";
-import { textAlign } from "@mui/system";
 
 function UnitDetails() {
   const { id } = useParams();
