@@ -13,7 +13,7 @@ function Routers() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/units" element={<Units />} />
-          <Route path="/details" element={<UnitDetails />} />
+          <Route path="/details/:id" element={<UnitDetails />} />
         </Routes>
       </Router>
     </>
