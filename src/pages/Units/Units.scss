@@ -28,3 +28,17 @@
 .cost-spans{
   width: 25px;
 }
+@media screen and (max-width:1200px){
+  .units{
+    width: 750px;
+    margin-left: -375px;
+  }
+}
+@media screen and (max-width:768px){
+  .units{
+    padding: 20px;
+    width: 500px;
+    margin-left: -250px;
+  }
+}
+

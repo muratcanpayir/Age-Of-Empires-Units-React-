@@ -1,7 +1,6 @@
 header {
   width: 100%;
   background-color: black;
-  height: 80px;
   border-bottom: 1px solid #d3b996;
 }
 nav {
@@ -37,3 +36,25 @@ nav {
     transition: 500ms;
   }
 }
+@media screen and (max-width:1440px){
+  nav{
+    margin: 0 120px;
+  }
+}
+@media screen and (max-width:1200px){
+  nav{
+    margin: 0 60px;
+  }
+}
+@media screen and (max-width:768px){
+  nav{
+    height: 60px;
+    margin: 0 30px; 
+  }
+}
+@media screen and (max-width:768px){
+  nav{
+    margin: 0 10px;
+  }
+}
+
