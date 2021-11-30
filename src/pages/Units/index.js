@@ -247,9 +247,7 @@ function Units() {
                         createData( 
                           unit.id, 
                           unit.name,
-
-Dilagger, [30/11/2021 08:13]
-unit.age, 
+                          unit.age, 
                           JSON.stringify(unit.cost) 
                         ) 
                       ); 
@@ -359,9 +357,7 @@ unit.age,
                           JSON.stringify(unit.cost) 
                         ) 
                       );
-
-Dilagger, [30/11/2021 08:13]
-} 
+                    } 
                   } else { 
                     if (!woodCheck && !foodCheck && !goldCheck) { 
                       rows.push(createData(unit.id, unit.name, unit.age, "-")); 
