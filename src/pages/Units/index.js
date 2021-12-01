@@ -128,7 +128,7 @@ function Units() {
   return (
     <div className="units-container">
       <div className="units">
-        <label>Ages</label>
+        <label htmlFor="ages" >Ages</label>
         <div className="ages">
           <ToggleButtonGroup
             color="warning"
@@ -139,7 +139,6 @@ function Units() {
           >
             <ToggleButton value="All">All</ToggleButton>
             <ToggleButton value="Dark">Dark</ToggleButton>
-
             <ToggleButton value="Feudal">Feudal</ToggleButton>
             <ToggleButton value="Castle">Castle</ToggleButton>
             <ToggleButton value="Imperial">Imperial</ToggleButton>
