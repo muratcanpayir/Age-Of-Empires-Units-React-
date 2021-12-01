@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./Units.scss";
 import {
   Slider,
@@ -13,11 +13,13 @@ import {
   TableBody,
   TablePagination,
   Table,
+  CircularProgress,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getUnits } from "../../redux/actions/units";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { REQUEST_STATUS } from "../../helpers/constants/constants";
 
 function Units() {
   const navigate = useNavigate();
@@ -29,63 +31,17 @@ function Units() {
   const [foodCheck, setFoodCheck] = useState(false);
   const [goldCheck, setGoldCheck] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [tableData, setTableData] = useState([]);
   const [page, setPage] = useState(0);
   const dispatch = useDispatch();
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
-    setPage(0);
-  };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 5));
-    setPage(0);
-  };
-  useEffect(() => {
-    dispatch(getUnits());
-    filterData();
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!woodCheck) {
-      setWoodCost(0);
-    }
-    filterData();
-  }, [woodCheck]);
-  useEffect(() => {
-    if (!foodCheck) {
-      setFoodCost(0);
-    }
-    filterData();
-  }, [foodCheck]);
-  useEffect(() => {
-    if (!goldCheck) {
-      setGoldCost(0);
-    }
-    filterData();
-  }, [goldCheck]);
-
-  useEffect(() => {
-    filterData();
-  }, [goldCost, foodCost, woodCost, alignment]);
-
   const units = useSelector((state) => state.units);
-  useEffect(() => {
-    filterData();
-  }, [units]);
-  function createData(id, name, age, wood, food, gold) {
-    return { id, name, age, wood, food, gold };
-  }
-  const rows = [];
-  const [tableData, setTableData] = useState([]);
-
-  const filterData = () => {
+  const filterData = useCallback(() => {
+    const rows = [];
     const ageFiltered = units.data.filter(
       (unit) => unit.age === alignment || alignment === "All"
     );
     if (!foodCheck && !goldCheck && !woodCheck) {
-      ageFiltered.map((unit) => {
+      ageFiltered.forEach((unit) => {
         rows.push(
           createData(
             unit.id,
@@ -110,7 +66,7 @@ function Units() {
         goldCheck === !!unit.cost.Gold &&
         (!goldCheck || unit.cost.Gold <= goldCost)
     );
-    filteredData.map((unit) => {
+    filteredData.forEach((unit) => {
       rows.push(
         createData(
           unit.id,
@@ -123,98 +79,162 @@ function Units() {
       );
     });
     setTableData(rows);
-  };
-  
-  return (
-    <div className="units-container">
-      <div className="units">
-        <label>Ages</label>
-        <div className="ages">
-          <ToggleButtonGroup
-            color="warning"
-            style={{ backgroundColor: "#616161" }}
-            value={alignment}
-            exclusive
-            onChange={handleChange}
-          >
-            <ToggleButton value="All">All</ToggleButton>
-            <ToggleButton value="Dark">Dark</ToggleButton>
+  }, [
+    alignment,
+    woodCheck,
+    woodCost,
+    foodCheck,
+    foodCost,
+    goldCheck,
+    goldCost,
+    units,
+  ]);
 
-            <ToggleButton value="Feudal">Feudal</ToggleButton>
-            <ToggleButton value="Castle">Castle</ToggleButton>
-            <ToggleButton value="Imperial">Imperial</ToggleButton>
-          </ToggleButtonGroup>
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment);
+    setPage(0);
+  };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 5));
+    setPage(0);
+  };
+  useEffect(() => {
+    dispatch(getUnits());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!woodCheck) {
+      setWoodCost(0);
+    }
+  }, [woodCheck]);
+  useEffect(() => {
+    if (!foodCheck) {
+      setFoodCost(0);
+    }
+  }, [foodCheck]);
+  useEffect(() => {
+    if (!goldCheck) {
+      setGoldCost(0);
+    }
+  }, [goldCheck]);
+
+  useEffect(() => {
+    filterData();
+  }, [units, filterData]);
+
+  function createData(id, name, age, wood, food, gold) {
+    return { id, name, age, wood, food, gold };
+  }
+
+  return (
+    <>
+      {units.status === REQUEST_STATUS.PENDING && (
+        <div>
+          <CircularProgress color="inherit" />
         </div>
-        <label>Costs</label>
-        <div className="costs">
-          <Checkbox
-            value={woodCheck}
-            onChange={(e) => setWoodCheck(e.target.checked)}
-          />
-          <label htmlFor="wood" className="cost-labels">
-            Wood
-          </label>
-          <Slider
-            value={woodCost}
-            aria-label="Default"
-            valueLabelDisplay="auto"
-            min={0}
-            max={200}
-            onChange={(e) => setWoodCost(e.target.value)}
-            disabled={woodCheck ? false : true}
-          />
-          <span className="cost-spans">{woodCost}</span>
-        </div>
-        <div className="costs">
-          <Checkbox
-            value={foodCheck}
-            onChange={(e) => setFoodCheck(e.target.checked)}
-          />
-          <label htmlFor="food" className="cost-labels">
-            Food
-          </label>
-          <Slider
-            value={foodCost}
-            aria-label="Default"
-            valueLabelDisplay="auto"
-            min={0}
-            max={200}
-            onChange={(e) => setFoodCost(e.target.value)}
-            disabled={foodCheck ? false : true}
-          />
-          <span className="cost-spans">{foodCost}</span>
-        </div>
-        <div className="costs">
-          <Checkbox
-            value={goldCheck}
-            onChange={(e) => setGoldCheck(e.target.checked)}
-          />
-          <label htmlFor="gold" className="cost-labels">
-            Gold
-          </label>
-          <Slider
-            value={goldCost}
-            aria-label="Default"
-            valueLabelDisplay="auto"
-            min={0}
-            max={200}
-            onChange={(e) => setGoldCost(e.target.value)}
-            disabled={goldCheck ? false : true}
-          />
-          <span className="cost-spans">{goldCost}</span>
-        </div>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="a dense table" size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell style={{fontWeight:"700"}}>Id</TableCell>
-                <TableCell align="right" style={{fontWeight:"700"}}>Name</TableCell>
-                <TableCell align="right" style={{fontWeight:"700"}}>Age</TableCell>
-                <TableCell align="right" style={{fontWeight:"700"}}>Costs</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {/*units.data.filter((unit) => { 
+      )}
+      {units.status === REQUEST_STATUS.SUCCESS && (
+        <div className="units-container">
+          <div className="units">
+            <label htmlFor="ages">Ages</label>
+            <div className="ages">
+              <ToggleButtonGroup
+                color="warning"
+                style={{ backgroundColor: "#616161" }}
+                value={alignment}
+                exclusive
+                onChange={handleChange}
+              >
+                <ToggleButton value="All">All</ToggleButton>
+                <ToggleButton value="Dark">Dark</ToggleButton>
+                <ToggleButton value="Feudal">Feudal</ToggleButton>
+                <ToggleButton value="Castle">Castle</ToggleButton>
+                <ToggleButton value="Imperial">Imperial</ToggleButton>
+              </ToggleButtonGroup>
+            </div>
+            <label>Costs</label>
+            <div className="costs">
+              <Checkbox
+                value={woodCheck}
+                onChange={(e) => setWoodCheck(e.target.checked)}
+              />
+              <label htmlFor="wood" className="cost-labels">
+                Wood
+              </label>
+              <Slider
+                value={woodCost}
+                aria-label="Default"
+                valueLabelDisplay="auto"
+                min={0}
+                max={200}
+                onChange={(e) => setWoodCost(e.target.value)}
+                disabled={woodCheck ? false : true}
+              />
+              <span className="cost-spans">{woodCost}</span>
+            </div>
+            <div className="costs">
+              <Checkbox
+                value={foodCheck}
+                onChange={(e) => setFoodCheck(e.target.checked)}
+              />
+              <label htmlFor="food" className="cost-labels">
+                Food
+              </label>
+              <Slider
+                value={foodCost}
+                aria-label="Default"
+                valueLabelDisplay="auto"
+                min={0}
+                max={200}
+                onChange={(e) => setFoodCost(e.target.value)}
+                disabled={foodCheck ? false : true}
+              />
+              <span className="cost-spans">{foodCost}</span>
+            </div>
+            <div className="costs">
+              <Checkbox
+                value={goldCheck}
+                onChange={(e) => setGoldCheck(e.target.checked)}
+              />
+              <label htmlFor="gold" className="cost-labels">
+                Gold
+              </label>
+              <Slider
+                value={goldCost}
+                aria-label="Default"
+                valueLabelDisplay="auto"
+                min={0}
+                max={200}
+                onChange={(e) => setGoldCost(e.target.value)}
+                disabled={goldCheck ? false : true}
+              />
+              <span className="cost-spans">{goldCost}</span>
+            </div>
+            <TableContainer component={Paper}>
+              <Table
+                sx={{ minWidth: 650 }}
+                aria-label="a dense table"
+                size="small"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>Id</TableCell>
+                    <TableCell align="right" style={{ fontWeight: "700" }}>
+                      Name
+                    </TableCell>
+                    <TableCell align="right" style={{ fontWeight: "700" }}>
+                      Age
+                    </TableCell>
+                    <TableCell align="right" style={{ fontWeight: "700" }}>
+                      Costs
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {/*units.data.filter((unit) => { 
                 if (unit.age === alignment || alignment === "All") { 
                   if(!woodCheck && !foodCheck && !goldCheck){ 
                     rows.push( 
@@ -365,40 +385,44 @@ function Units() {
                   } 
                 } 
               })*/}
-              {tableData
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => (
-                  <TableRow
-                    onClick={() => {
-                      navigate(`/details/${row.id}`);
-                    }}
-                    key={row.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.id}
-                    </TableCell>
-                    <TableCell align="right">{row.name}</TableCell>
-                    <TableCell align="right">{row.age}</TableCell>
-                    <TableCell align="right">
-                      Wood: {row.wood} Food: {row.food} Gold: {row.gold}
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5]}
-          component="div"
-          count={tableData.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </div>
-    </div>
+                  {tableData
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => (
+                      <TableRow
+                        onClick={() => {
+                          navigate(`/details/${row.id}`);
+                        }}
+                        key={row.id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {row.id}
+                        </TableCell>
+                        <TableCell align="right">{row.name}</TableCell>
+                        <TableCell align="right">{row.age}</TableCell>
+                        <TableCell align="right">
+                          Wood: {row.wood} Food: {row.food} Gold: {row.gold}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5]}
+              component="div"
+              count={tableData.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

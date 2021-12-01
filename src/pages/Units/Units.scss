@@ -1,4 +1,5 @@
 .ages{
+  margin-top: 5px;
   margin-bottom: 20px;
 }
 .units {
@@ -18,6 +19,9 @@
   width: 100%;
   display: flex;
   align-items: center;
+}
+.MuiPaper-root{
+  margin-top: 20px;
 }
 .MuiSlider-colorPrimary{
   margin: 0 30px;
@@ -39,6 +43,9 @@
 .MuiTableCell-body{
   background-color: rgb(206, 206, 206);
   border: 1px solid #625645 !important;
+}
+.Mui-selected{
+  color: #d3b996 !important;
 }
 @media screen and (max-width:1200px){
   .units{
@@ -69,6 +76,9 @@
     width: 350px;
     height: 520px;
     margin-left: -175px;
+  }
+  .MuiPaper-root{
+    margin-top: 5px;
   }
 }
 

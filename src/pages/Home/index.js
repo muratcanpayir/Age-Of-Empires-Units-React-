@@ -1,13 +1,8 @@
-import React from 'react'
-import homeImage from "../../assets/images/home-page-image.jpg";
+import React from "react";
 import "./Home.scss";
 
 function Home() {
-  return (
-    <div className="home-page">
-      
-    </div>
-  )
+  return <div className="home-page"></div>;
 }
 
 export default Home;

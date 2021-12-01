@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getUnits } from "../../redux/actions/units";
+import { getUnitDetails } from "../../redux/actions/unitDetails";
 import {
   TableContainer,
   Paper,
@@ -9,80 +9,125 @@ import {
   TableRow,
   TableCell,
   Table,
+  CircularProgress,
 } from "@mui/material";
+import { REQUEST_STATUS } from "../../helpers/constants/constants";
 
 function UnitDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getUnits());
-  }, [dispatch]);
-  const units = useSelector((state) => state.units);
-  console.log(units);
+    dispatch(getUnitDetails(id));
+  }, [dispatch, id]);
+  const unitDetails = useSelector((state) => state.unitDetails);
+  console.log(unitDetails.status);
   return (
     <div>
-      {units.data.map(
-        (unit) =>
-          Number(id) === unit.id && (
-            <div key={unit.id} className="units">
-              <label htmlFor="unit-details" style={{fontSize:"24px", marginBottom:"10px"}}>Unit Details</label>
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>ID</TableCell>
-                      <TableCell>{unit.id}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Name</TableCell>
-                      <TableCell>{unit.name}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Description</TableCell>
-                      <TableCell>{unit.description}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Age</TableCell>
-                      <TableCell>{unit.age}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Wood Cost</TableCell>
-                      <TableCell>{unit.cost!==null && unit.cost.Wood ? unit.cost.Wood :0}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Food Cost</TableCell>
-                      <TableCell>{unit.cost!==null && unit.cost.Food ? unit.cost.Food :0}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Gold Cost</TableCell>
-                      <TableCell>{unit.cost!==null && unit.cost.Gold ? unit.cost.Gold :0}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Build Time</TableCell>
-                      <TableCell>{unit.build_time}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Reload Time</TableCell>
-                      <TableCell>{unit.reload_time}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Hit Points</TableCell>
-                      <TableCell>{unit.hit_points}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Attack</TableCell>
-                      <TableCell>{unit.attack}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Accuracy</TableCell>
-                      <TableCell>{unit.accuracy}</TableCell>
-                    </TableRow>
-                  </TableHead>
-                </Table>
-              </TableContainer>
-            </div>
-          )
+      {unitDetails.status === REQUEST_STATUS.PENDING && (
+        <div>
+          <CircularProgress color="inherit" />
+        </div>
       )}
+      {unitDetails.status === REQUEST_STATUS.SUCCESS &&
+        Number(id) === unitDetails.data.id && (
+          <div key={unitDetails.data.id} className="units">
+            <label
+              htmlFor="unit-details"
+              style={{ fontSize: "24px", marginBottom: "10px" }}
+            >
+              Unit Details
+            </label>
+            <TableContainer component={Paper}>
+              <Table
+                sx={{ minWidth: 650 }}
+                aria-label="simple table"
+                size="small"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>ID</TableCell>
+                    <TableCell>{unitDetails.data.id}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>Name</TableCell>
+                    <TableCell>{unitDetails.data.name}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>
+                      Description
+                    </TableCell>
+                    <TableCell>{unitDetails.data.description}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>Age</TableCell>
+                    <TableCell>{unitDetails.data.age}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>
+                      Wood Cost
+                    </TableCell>
+                    <TableCell>
+                      {unitDetails.data.cost !== null &&
+                      unitDetails.data.cost.Wood
+                        ? unitDetails.data.cost.Wood
+                        : 0}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>
+                      Food Cost
+                    </TableCell>
+                    <TableCell>
+                      {unitDetails.data.cost !== null &&
+                      unitDetails.data.cost.Food
+                        ? unitDetails.data.cost.Food
+                        : 0}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>
+                      Gold Cost
+                    </TableCell>
+                    <TableCell>
+                      {unitDetails.data.cost !== null &&
+                      unitDetails.data.cost.Gold
+                        ? unitDetails.data.cost.Gold
+                        : 0}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>
+                      Build Time
+                    </TableCell>
+                    <TableCell>{unitDetails.data.build_time}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>
+                      Reload Time
+                    </TableCell>
+                    <TableCell>{unitDetails.data.reload_time}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>
+                      Hit Points
+                    </TableCell>
+                    <TableCell>{unitDetails.data.hit_points}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>Attack</TableCell>
+                    <TableCell>{unitDetails.data.attack}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: "700" }}>
+                      Accuracy
+                    </TableCell>
+                    <TableCell>{unitDetails.data.accuracy}</TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </div>
+        )}
     </div>
   );
 }
