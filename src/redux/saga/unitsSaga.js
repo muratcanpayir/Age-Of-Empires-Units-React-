@@ -1,10 +1,15 @@
 import { call, put } from "@redux-saga/core/effects";
+import axios from "axios";
 import fakeData from "../../helpers/fakeAPI/age-of-empires-units.json";
 import { GET_UNITS_SUCCESS } from "../constants/units";
 
-function fetchUnits() {
-  const data = fakeData;
-  return data;
+function fetchUnits() { 
+  try { 
+    const data =axios.get("http://localhost:3000/units"); 
+    return data; 
+  } catch (error) { 
+    console.log(error); 
+  } 
 }
 
 export function* handleGetUnits() {

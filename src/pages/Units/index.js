@@ -71,6 +71,7 @@ function Units() {
   }, [goldCost, foodCost, woodCost, alignment]);
 
   const units = useSelector((state) => state.units);
+  console.log(units);
   useEffect(() => {
     filterData();
   }, [units]);
