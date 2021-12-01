@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getUnits } from "../../redux/actions/units";
+import { getUnitDetails } from "../../redux/actions/unitDetails";
 import {
   TableContainer,
   Paper,
@@ -15,66 +15,104 @@ function UnitDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getUnits());
-  }, [dispatch]);
-  const units = useSelector((state) => state.units);
-  console.log(units);
+    dispatch(getUnitDetails(id));
+  }, [dispatch,id]);
+  const unitDetails = useSelector((state) => state.unitDetails);
   return (
     <div>
-      {units.data.map(
+      {unitDetails.data.map(
         (unit) =>
           Number(id) === unit.id && (
             <div key={unit.id} className="units">
-              <label htmlFor="unit-details" style={{fontSize:"24px", marginBottom:"10px"}}>Unit Details</label>
+              <label
+                htmlFor="unit-details"
+                style={{ fontSize: "24px", marginBottom: "10px" }}
+              >
+                Unit Details
+              </label>
               <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
+                <Table
+                  sx={{ minWidth: 650 }}
+                  aria-label="simple table"
+                  size="small"
+                >
                   <TableHead>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>ID</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>ID</TableCell>
                       <TableCell>{unit.id}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Name</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>Name</TableCell>
                       <TableCell>{unit.name}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Description</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>
+                        Description
+                      </TableCell>
                       <TableCell>{unit.description}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Age</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>Age</TableCell>
                       <TableCell>{unit.age}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Wood Cost</TableCell>
-                      <TableCell>{unit.cost!==null && unit.cost.Wood ? unit.cost.Wood :0}</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>
+                        Wood Cost
+                      </TableCell>
+                      <TableCell>
+                        {unit.cost !== null && unit.cost.Wood
+                          ? unit.cost.Wood
+                          : 0}
+                      </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Food Cost</TableCell>
-                      <TableCell>{unit.cost!==null && unit.cost.Food ? unit.cost.Food :0}</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>
+                        Food Cost
+                      </TableCell>
+                      <TableCell>
+                        {unit.cost !== null && unit.cost.Food
+                          ? unit.cost.Food
+                          : 0}
+                      </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Gold Cost</TableCell>
-                      <TableCell>{unit.cost!==null && unit.cost.Gold ? unit.cost.Gold :0}</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>
+                        Gold Cost
+                      </TableCell>
+                      <TableCell>
+                        {unit.cost !== null && unit.cost.Gold
+                          ? unit.cost.Gold
+                          : 0}
+                      </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Build Time</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>
+                        Build Time
+                      </TableCell>
                       <TableCell>{unit.build_time}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Reload Time</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>
+                        Reload Time
+                      </TableCell>
                       <TableCell>{unit.reload_time}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Hit Points</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>
+                        Hit Points
+                      </TableCell>
                       <TableCell>{unit.hit_points}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Attack</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>
+                        Attack
+                      </TableCell>
                       <TableCell>{unit.attack}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell style={{fontWeight:"700"}}>Accuracy</TableCell>
+                      <TableCell style={{ fontWeight: "700" }}>
+                        Accuracy
+                      </TableCell>
                       <TableCell>{unit.accuracy}</TableCell>
                     </TableRow>
                   </TableHead>
