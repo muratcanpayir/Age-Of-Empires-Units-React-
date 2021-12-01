@@ -1,9 +1,22 @@
-# Getting Started with Create React App
+# Age of Empires Units React Project
+It's a React Project that list Age of Empires Units. You can list all units, select the ages category, select costs with sliders, it'll filter and write to the table and you can click the unit to see details. All pages have Responsive UI and designed for both desktop and mobile. Endpoint created with Glitch, Api Data created from this [Repository](https://github.com/muratcanpayir/age-of-empire-units-json-api)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+For Live Demo [Click!](https://eager-pike-85b1e7.netlify.app/)
 
+
+<h2>Used Technologies</h2>
+  <ul>
+    <li>React</li>
+    <li>Redux</li>
+    <li>SASS</li>
+    <li>Axios</li>
+    <li>Redux-Saga</li>
+    <li>React-Router</li>
+    <li>Material UI</li>
+    <li>Deployed by Netlify</li>
+  </ul>
+<h2>Installation</h2>
 In the project directory, you can run:
 
 ### `yarn start`
@@ -13,11 +26,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `yarn build`
 
@@ -29,42 +37,27 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<h2>Screenshots</h2>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![image](https://user-images.githubusercontent.com/83983761/144327506-b728a7e5-2c95-418f-89e3-57d42b7f082b.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![image](https://user-images.githubusercontent.com/83983761/144327568-44f087ff-06fe-4b1d-b66b-488ae19ce764.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![image](https://user-images.githubusercontent.com/83983761/144327627-22379087-d0ed-4257-9bcd-74c6751af4b7.png)
 
-## Learn More
+![image](https://user-images.githubusercontent.com/83983761/144327697-b35c1d97-f74f-4e1c-b2c1-43d34610f260.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<h2>Performance</h2>
 
-### Code Splitting
+<h3>Desktop</h3>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![image](https://user-images.githubusercontent.com/83983761/144327184-1835292a-4d06-4ad2-95d2-287e9f01d717.png)
+<h3>Mobile</h3>
 
-### Analyzing the Bundle Size
+![image](https://user-images.githubusercontent.com/83983761/144327459-2db287a2-c624-4d9f-a3fd-a747baf48ba4.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

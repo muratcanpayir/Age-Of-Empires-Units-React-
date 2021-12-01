@@ -5,9 +5,6 @@ import { handleGetUnits } from "./unitsSaga";
 import { handleGetUnitDetails } from "./unitDetailsSaga";
 
 export function* rootSaga() {
-  
-    yield takeEvery(GET_UNITS_SAGA, handleGetUnits);
+  yield takeEvery(GET_UNITS_SAGA, handleGetUnits);
   yield takeEvery(GET_UNIT_DETAILS_SAGA, handleGetUnitDetails);
-  
-  
 }

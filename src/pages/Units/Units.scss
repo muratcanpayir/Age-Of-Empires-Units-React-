@@ -1,4 +1,4 @@
-.ages{
+.ages {
   margin-top: 5px;
   margin-bottom: 20px;
 }
@@ -15,70 +15,72 @@
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.7);
 }
-.costs{
+.costs {
   width: 100%;
   display: flex;
   align-items: center;
 }
-.MuiPaper-root{
+.MuiPaper-root {
   margin-top: 20px;
 }
-.MuiSlider-colorPrimary{
+.MuiSlider-colorPrimary {
   margin: 0 30px;
 }
-.cost-labels{
+.cost-labels {
   width: 50px;
 }
-.cost-spans{
+.cost-spans {
   width: 25px;
 }
-.MuiTableHead-root{
+.MuiTableHead-root {
   background: rgb(43, 42, 42);
-  
-  th{
+
+  th {
     color: #fff;
     border: 1px solid #625645 !important;
   }
 }
-.MuiTableCell-body{
+.MuiTableCell-body {
   background-color: rgb(206, 206, 206);
   border: 1px solid #625645 !important;
 }
-.Mui-selected{
+.Mui-selected {
   color: #d3b996 !important;
 }
-@media screen and (max-width:1200px){
-  .units{
+.MuiTableBody-root {
+  cursor: pointer;
+}
+@media screen and (max-width: 1200px) {
+  .units {
     width: 750px;
     margin-left: -375px;
   }
-  .cost-labels{
+  .cost-labels {
     width: 80px;
   }
 }
-@media screen and (max-width:768px){
-  .units{
+@media screen and (max-width: 768px) {
+  .units {
     padding: 20px;
     width: 500px;
     margin-left: -250px;
   }
 }
-@media screen and (max-width:480px){
-  .ages{
+@media screen and (max-width: 480px) {
+  .ages {
     display: flex;
     justify-content: center;
   }
-  .MuiToggleButton-root{
+  .MuiToggleButton-root {
     padding: 8px !important;
   }
-  .units{
+  .units {
     padding: 10px;
     width: 350px;
     height: 520px;
     margin-left: -175px;
   }
-  .MuiPaper-root{
+  .MuiPaper-root {
     margin-top: 5px;
   }
 }
-

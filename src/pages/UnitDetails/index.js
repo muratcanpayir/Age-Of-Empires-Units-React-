@@ -20,14 +20,15 @@ function UnitDetails() {
     dispatch(getUnitDetails(id));
   }, [dispatch, id]);
   const unitDetails = useSelector((state) => state.unitDetails);
-  console.log(unitDetails.status);
   return (
+    //loader for the pending status
     <div>
       {unitDetails.status === REQUEST_STATUS.PENDING && (
         <div>
           <CircularProgress color="inherit" />
         </div>
       )}
+      {/* creating table with the material ui */}
       {unitDetails.status === REQUEST_STATUS.SUCCESS &&
         Number(id) === unitDetails.data.id && (
           <div key={unitDetails.data.id} className="units">

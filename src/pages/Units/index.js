@@ -30,11 +30,15 @@ function Units() {
   };
   const dispatch = useDispatch();
   const units = useSelector((state) => state.units);
+
+  //data filtering function
   const filterData = useCallback(() => {
     const rows = [];
+    //filter for the ages categories
     const ageFiltered = units.data.filter(
       (unit) => unit.age === alignment || alignment === "All"
     );
+    //filter for the unchecked costs
     if (!foodCheck && !goldCheck && !woodCheck) {
       ageFiltered.forEach((unit) => {
         rows.push(
@@ -51,6 +55,7 @@ function Units() {
       setTableData(rows);
       return;
     }
+    //filtering of the costs sliders combinations
     const costFiltered = ageFiltered.filter((unit) => unit.cost);
     const filteredData = costFiltered.filter(
       (unit) =>
@@ -89,6 +94,7 @@ function Units() {
     dispatch(getUnits());
   }, [dispatch]);
 
+  //useEffect hooks for the clear unchecked sliders
   useEffect(() => {
     if (!woodCheck) {
       setWoodCost(0);
@@ -109,6 +115,7 @@ function Units() {
     filterData();
   }, [units, filterData]);
 
+  //function that goes to table rows
   function createData(id, name, age, wood, food, gold) {
     return { id, name, age, wood, food, gold };
   }
@@ -196,8 +203,8 @@ function Units() {
                 disabled={goldCheck ? false : true}
               />
               <span className="cost-spans">{goldCost}</span>
-              {console.log(tableData)}
             </div>
+            {/* tableData goes to UnitsTable component for create table */}
             <UnitsTable tableData={tableData} page={page} setPage={setPage} />
           </div>
         </div>

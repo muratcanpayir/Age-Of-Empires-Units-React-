@@ -7,7 +7,7 @@ import { unitDetailsReducer } from "../reducers/unitDetails";
 
 const reducers = combineReducers({
   units: unitsReducer,
-  unitDetails:unitDetailsReducer,
+  unitDetails: unitDetailsReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
