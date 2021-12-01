@@ -1,18 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
+import Table from "../../components/Table";
 import "./Units.scss";
 import {
   Slider,
   ToggleButtonGroup,
   ToggleButton,
   Checkbox,
-  TableContainer,
-  Paper,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TablePagination,
-  Table,
   CircularProgress,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -92,13 +85,6 @@ function Units() {
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
-    setPage(0);
-  };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 5));
     setPage(0);
   };
   useEffect(() => {
@@ -212,213 +198,8 @@ function Units() {
                 disabled={goldCheck ? false : true}
               />
               <span className="cost-spans">{goldCost}</span>
+              <Table tableData={tableData}/>
             </div>
-            <TableContainer component={Paper}>
-              <Table
-                sx={{ minWidth: 650 }}
-                aria-label="a dense table"
-                size="small"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell style={{ fontWeight: "700" }}>Id</TableCell>
-                    <TableCell align="right" style={{ fontWeight: "700" }}>
-                      Name
-                    </TableCell>
-                    <TableCell align="right" style={{ fontWeight: "700" }}>
-                      Age
-                    </TableCell>
-                    <TableCell align="right" style={{ fontWeight: "700" }}>
-                      Costs
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {/*units.data.filter((unit) => { 
-                if (unit.age === alignment || alignment === "All") { 
-                  if(!woodCheck && !foodCheck && !goldCheck){ 
-                    rows.push( 
-                      createData( 
-                        unit.id, 
-                        unit.name, 
-                        unit.age, 
-                        JSON.stringify(unit.cost) 
-                      ) 
-                    ); 
-                  } 
-                  else if (unit.cost !== null) { 
-                    if (((woodCheck === !!unit.cost.Wood) && (!woodCheck || unit.cost.Wood <= woodCost)) && 
-                        ((foodCheck === !!unit.cost.Food) && (!foodCheck || unit.cost.Food <= foodCost)) && 
-                        ((goldCheck === !!unit.cost.Gold) && (!goldCheck || unit.cost.Gold <= goldCost))) { 
-                          rows.push( 
-                            createData( 
-                              unit.id, 
-                              unit.name, 
-                              unit.age, 
-                              JSON.stringify(unit.cost) 
-                            ) 
-                          ); 
-                    } 
-                  } 
-                   
-                  if (unit.cost !== null) { 
-                    if (!woodCheck && !foodCheck && !goldCheck) { 
-                      rows.push( 
-                        createData( 
-                          unit.id, 
-                          unit.name,
-                          unit.age, 
-                          JSON.stringify(unit.cost) 
-                        ) 
-                      ); 
-                    } 
-                    if ( 
-                      woodCheck && 
-                      !foodCheck && 
-                      !goldCheck && 
-                      unit.cost.Wood && 
-                      !unit.cost.Food && 
-                      !unit.cost.Gold && 
-                      unit.cost.Wood < woodCost 
-                    ) { 
-                      rows.push( 
-                        createData( 
-                          unit.id, 
-                          unit.name, 
-                          unit.age, 
-                          JSON.stringify(unit.cost) 
-                        ) 
-                      ); 
-                    } else if ( 
-                      foodCheck && 
-                      !woodCheck && 
-                      !goldCheck && 
-                      unit.cost.Food && 
-                      !unit.cost.Wood && 
-                      !unit.cost.Gold && 
-                      unit.cost.Food < foodCost 
-                    ) { 
-                      rows.push( 
-                        createData( 
-                          unit.id, 
-                          unit.name, 
-                          unit.age, 
-                          JSON.stringify(unit.cost) 
-                        ) 
-                      ); 
-                    } else if ( 
-                      goldCheck && 
-                      !woodCheck && 
-                      !foodCheck && 
-                      unit.cost.Gold && 
-                      !unit.cost.Wood && 
-                      !unit.cost.Food && 
-                      unit.cost.Gold < goldCost 
-                    ) { 
-                      rows.push( 
-                        createData( 
-                          unit.id, 
-                          unit.name, 
-                          unit.age, 
-                          JSON.stringify(unit.cost) 
-                        ) 
-                      ); 
-                    } else if ( 
-                      woodCheck && 
-                      foodCheck && 
-                      !goldCheck && 
-                      unit.cost.Wood && 
-                      unit.cost.Food && 
-                      !unit.cost.Gold && 
-                      unit.cost.Wood < woodCost && 
-                      unit.cost.Food < foodCost 
-                    ) { 
-                      rows.push( 
-                        createData( 
-                          unit.id, 
-                          unit.name, 
-                          unit.age, 
-                          JSON.stringify(unit.cost) 
-                        ) 
-                      ); 
-                    } else if ( 
-                      woodCheck && 
-                      goldCheck && 
-                      !foodCheck && 
-                      unit.cost.Wood && 
-                      unit.cost.Gold && 
-                      !unit.cost.Food && 
-                      unit.cost.Wood < woodCost && 
-                      unit.cost.Gold < goldCost 
-                    ) { 
-                      rows.push( 
-                        createData( 
-                          unit.id, 
-                          unit.name, 
-                          unit.age, 
-                          JSON.stringify(unit.cost) 
-                        ) 
-                      ); 
-                    } else if ( 
-                      foodCheck && 
-                      goldCheck && 
-                      !woodCheck && 
-                      unit.cost.Food && 
-                      unit.cost.Gold && 
-                      !unit.cost.Wood && 
-                      unit.cost.Food < foodCost && 
-                      unit.cost.Gold < goldCost 
-                    ) { 
-                      rows.push( 
-                        createData( 
-                          unit.id, 
-                          unit.name, 
-                          unit.age, 
-                          JSON.stringify(unit.cost) 
-                        ) 
-                      );
-                    } 
-                  } else { 
-                    if (!woodCheck && !foodCheck && !goldCheck) { 
-                      rows.push(createData(unit.id, unit.name, unit.age, "-")); 
-                    } 
-                  } 
-                } 
-              })*/}
-                  {tableData
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => (
-                      <TableRow
-                        onClick={() => {
-                          navigate(`/details/${row.id}`);
-                        }}
-                        key={row.id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row.id}
-                        </TableCell>
-                        <TableCell align="right">{row.name}</TableCell>
-                        <TableCell align="right">{row.age}</TableCell>
-                        <TableCell align="right">
-                          Wood: {row.wood} Food: {row.food} Gold: {row.gold}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5]}
-              component="div"
-              count={tableData.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
           </div>
         </div>
       )}
