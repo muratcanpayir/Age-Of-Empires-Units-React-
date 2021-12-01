@@ -1,4 +1,4 @@
-import { takeEvery,all } from "redux-saga/effects";
+import { takeEvery } from "redux-saga/effects";
 import { GET_UNITS_SAGA } from "../constants/units";
 import { GET_UNIT_DETAILS_SAGA } from "../constants/unitDetails";
 import { handleGetUnits } from "./unitsSaga";

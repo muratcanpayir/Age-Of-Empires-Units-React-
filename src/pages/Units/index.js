@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./Units.scss";
 import {
   Slider,
@@ -31,64 +31,17 @@ function Units() {
   const [foodCheck, setFoodCheck] = useState(false);
   const [goldCheck, setGoldCheck] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [tableData, setTableData] = useState([]);
   const [page, setPage] = useState(0);
   const dispatch = useDispatch();
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
-    setPage(0);
-  };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 5));
-    setPage(0);
-  };
-  useEffect(() => {
-    dispatch(getUnits());
-    filterData();
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!woodCheck) {
-      setWoodCost(0);
-    }
-    filterData();
-  }, [woodCheck]);
-  useEffect(() => {
-    if (!foodCheck) {
-      setFoodCost(0);
-    }
-    filterData();
-  }, [foodCheck]);
-  useEffect(() => {
-    if (!goldCheck) {
-      setGoldCost(0);
-    }
-    filterData();
-  }, [goldCheck]);
-
-  useEffect(() => {
-    filterData();
-  }, [goldCost, foodCost, woodCost, alignment]);
-
   const units = useSelector((state) => state.units);
-  console.log(units);
-  useEffect(() => {
-    filterData();
-  }, [units]);
-  function createData(id, name, age, wood, food, gold) {
-    return { id, name, age, wood, food, gold };
-  }
-  const rows = [];
-  const [tableData, setTableData] = useState([]);
-
-  const filterData = () => {
+  const filterData = useCallback(() => {
+    const rows = [];
     const ageFiltered = units.data.filter(
       (unit) => unit.age === alignment || alignment === "All"
     );
     if (!foodCheck && !goldCheck && !woodCheck) {
-      ageFiltered.map((unit) => {
+      ageFiltered.forEach((unit) => {
         rows.push(
           createData(
             unit.id,
@@ -113,7 +66,7 @@ function Units() {
         goldCheck === !!unit.cost.Gold &&
         (!goldCheck || unit.cost.Gold <= goldCost)
     );
-    filteredData.map((unit) => {
+    filteredData.forEach((unit) => {
       rows.push(
         createData(
           unit.id,
@@ -126,13 +79,61 @@ function Units() {
       );
     });
     setTableData(rows);
+  }, [
+    alignment,
+    woodCheck,
+    woodCost,
+    foodCheck,
+    foodCost,
+    goldCheck,
+    goldCost,
+    units,
+  ]);
+
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment);
+    setPage(0);
   };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 5));
+    setPage(0);
+  };
+  useEffect(() => {
+    dispatch(getUnits());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!woodCheck) {
+      setWoodCost(0);
+    }
+  }, [woodCheck]);
+  useEffect(() => {
+    if (!foodCheck) {
+      setFoodCost(0);
+    }
+  }, [foodCheck]);
+  useEffect(() => {
+    if (!goldCheck) {
+      setGoldCost(0);
+    }
+  }, [goldCheck]);
+
+  useEffect(() => {
+    filterData();
+  }, [units, filterData]);
+
+  function createData(id, name, age, wood, food, gold) {
+    return { id, name, age, wood, food, gold };
+  }
 
   return (
     <>
       {units.status === REQUEST_STATUS.PENDING && (
         <div>
-          <CircularProgress color="inherit"/>
+          <CircularProgress color="inherit" />
         </div>
       )}
       {units.status === REQUEST_STATUS.SUCCESS && (
