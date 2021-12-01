@@ -9,7 +9,9 @@ import {
   TableRow,
   TableCell,
   Table,
+  CircularProgress,
 } from "@mui/material";
+import { REQUEST_STATUS } from "../../helpers/constants/constants";
 
 function UnitDetails() {
   const { id } = useParams();
@@ -18,12 +20,16 @@ function UnitDetails() {
     dispatch(getUnitDetails(id));
   }, [dispatch,id]);
   const unitDetails = useSelector((state) => state.unitDetails);
+  console.log(unitDetails.status);
   return (
     <div>
-      {unitDetails.data.map(
-        (unit) =>
-          Number(id) === unit.id && (
-            <div key={unit.id} className="units">
+        {
+          unitDetails.status===REQUEST_STATUS.PENDING && <div><CircularProgress color="inherit"/></div>
+        }
+          {
+          unitDetails.status===REQUEST_STATUS.SUCCESS &&
+          Number(id) === unitDetails.data.id && 
+            <div key={unitDetails.data.id} className="units">
               <label
                 htmlFor="unit-details"
                 style={{ fontSize: "24px", marginBottom: "10px" }}
@@ -39,29 +45,29 @@ function UnitDetails() {
                   <TableHead>
                     <TableRow>
                       <TableCell style={{ fontWeight: "700" }}>ID</TableCell>
-                      <TableCell>{unit.id}</TableCell>
+                      <TableCell>{unitDetails.data.id}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell style={{ fontWeight: "700" }}>Name</TableCell>
-                      <TableCell>{unit.name}</TableCell>
+                      <TableCell>{unitDetails.data.name}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell style={{ fontWeight: "700" }}>
                         Description
                       </TableCell>
-                      <TableCell>{unit.description}</TableCell>
+                      <TableCell>{unitDetails.data.description}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell style={{ fontWeight: "700" }}>Age</TableCell>
-                      <TableCell>{unit.age}</TableCell>
+                      <TableCell>{unitDetails.data.age}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell style={{ fontWeight: "700" }}>
                         Wood Cost
                       </TableCell>
                       <TableCell>
-                        {unit.cost !== null && unit.cost.Wood
-                          ? unit.cost.Wood
+                        {unitDetails.data.cost !== null && unitDetails.data.cost.Wood
+                          ? unitDetails.data.cost.Wood
                           : 0}
                       </TableCell>
                     </TableRow>
@@ -70,8 +76,8 @@ function UnitDetails() {
                         Food Cost
                       </TableCell>
                       <TableCell>
-                        {unit.cost !== null && unit.cost.Food
-                          ? unit.cost.Food
+                        {unitDetails.data.cost !== null && unitDetails.data.cost.Food
+                          ? unitDetails.data.cost.Food
                           : 0}
                       </TableCell>
                     </TableRow>
@@ -80,8 +86,8 @@ function UnitDetails() {
                         Gold Cost
                       </TableCell>
                       <TableCell>
-                        {unit.cost !== null && unit.cost.Gold
-                          ? unit.cost.Gold
+                        {unitDetails.data.cost !== null && unitDetails.data.cost.Gold
+                          ? unitDetails.data.cost.Gold
                           : 0}
                       </TableCell>
                     </TableRow>
@@ -89,38 +95,38 @@ function UnitDetails() {
                       <TableCell style={{ fontWeight: "700" }}>
                         Build Time
                       </TableCell>
-                      <TableCell>{unit.build_time}</TableCell>
+                      <TableCell>{unitDetails.data.build_time}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell style={{ fontWeight: "700" }}>
                         Reload Time
                       </TableCell>
-                      <TableCell>{unit.reload_time}</TableCell>
+                      <TableCell>{unitDetails.data.reload_time}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell style={{ fontWeight: "700" }}>
                         Hit Points
                       </TableCell>
-                      <TableCell>{unit.hit_points}</TableCell>
+                      <TableCell>{unitDetails.data.hit_points}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell style={{ fontWeight: "700" }}>
                         Attack
                       </TableCell>
-                      <TableCell>{unit.attack}</TableCell>
+                      <TableCell>{unitDetails.data.attack}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell style={{ fontWeight: "700" }}>
                         Accuracy
                       </TableCell>
-                      <TableCell>{unit.accuracy}</TableCell>
+                      <TableCell>{unitDetails.data.accuracy}</TableCell>
                     </TableRow>
                   </TableHead>
                 </Table>
               </TableContainer>
             </div>
-          )
-      )}
+          }
+      
     </div>
   );
 }
