@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   TableContainer,
   Paper,
@@ -7,10 +8,12 @@ import {
   TableCell,
   TableBody,
   TablePagination,
-  Table,
+  Table
 } from "@mui/material";
 
-function Table({ tableData }) {
+function UnitsTable({ tableData, page, setPage }) {
+  const navigate = useNavigate();
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -18,6 +21,7 @@ function Table({ tableData }) {
     setRowsPerPage(parseInt(event.target.value, 5));
     setPage(0);
   };
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -75,4 +79,4 @@ function Table({ tableData }) {
   );
 }
 
-export default Table;
+export default UnitsTable;

@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Table from "../../components/Table";
 import "./Units.scss";
 import {
   Slider,
@@ -11,11 +10,10 @@ import {
 import { useDispatch } from "react-redux";
 import { getUnits } from "../../redux/actions/units";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { REQUEST_STATUS } from "../../helpers/constants/constants";
+import UnitsTable from "../../components/Table";
 
 function Units() {
-  const navigate = useNavigate();
   const [alignment, setAlignment] = useState("All");
   const [woodCost, setWoodCost] = useState(0);
   const [foodCost, setFoodCost] = useState(0);
@@ -23,9 +21,13 @@ function Units() {
   const [woodCheck, setWoodCheck] = useState(false);
   const [foodCheck, setFoodCheck] = useState(false);
   const [goldCheck, setGoldCheck] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [tableData, setTableData] = useState([]);
   const [page, setPage] = useState(0);
+  const [tableData, setTableData] = useState([]);
+
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment);
+    setPage(0);
+  };
   const dispatch = useDispatch();
   const units = useSelector((state) => state.units);
   const filterData = useCallback(() => {
@@ -83,10 +85,6 @@ function Units() {
     units,
   ]);
 
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
-    setPage(0);
-  };
   useEffect(() => {
     dispatch(getUnits());
   }, [dispatch]);
@@ -198,8 +196,9 @@ function Units() {
                 disabled={goldCheck ? false : true}
               />
               <span className="cost-spans">{goldCost}</span>
-              <Table tableData={tableData}/>
+              {console.log(tableData)}
             </div>
+            <UnitsTable tableData={tableData} page={page} setPage={setPage} />
           </div>
         </div>
       )}
