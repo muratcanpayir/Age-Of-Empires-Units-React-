@@ -8,7 +8,7 @@ import {
   TableCell,
   TableBody,
   TablePagination,
-  Table
+  Table,
 } from "@mui/material";
 
 function UnitsTable({ tableData, page, setPage }) {

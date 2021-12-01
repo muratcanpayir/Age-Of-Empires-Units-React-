@@ -7,7 +7,9 @@ import {
 
 function fetchUnitDetails(id) {
   try {
-    const data = axios.get(`https://sore-marbled-grapple.glitch.me/units/${id}`);
+    const data = axios.get(
+      `https://sore-marbled-grapple.glitch.me/units/${id}`
+    );
     return data;
   } catch (error) {
     console.log(error);

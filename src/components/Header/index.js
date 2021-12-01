@@ -4,20 +4,24 @@ import logo from "../../assets/images/header-logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   return (
     <header>
       <nav>
         <Link to="/">
-        <div className="image-wrapper">
-          <img src={logo} alt="header" />
-        </div>
+          <div className="image-wrapper">
+            <img src={logo} alt="header" />
+          </div>
         </Link>
-        <button onClick={()=>{
-          navigate("/units");
-        }} className="units-button">Units</button>
-
+        <button
+          onClick={() => {
+            navigate("/units");
+          }}
+          className="units-button"
+        >
+          Units
+        </button>
       </nav>
     </header>
   );
