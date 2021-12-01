@@ -4,7 +4,7 @@ import { GET_UNITS_PENDING, GET_UNITS_SUCCESS } from "../constants/units";
 
 function fetchUnits() {
   try {
-    const data = axios.get("http://localhost:3000/units");
+    const data = axios.get("https://sore-marbled-grapple.glitch.me/units");
     return data;
   } catch (error) {
     console.log(error);
